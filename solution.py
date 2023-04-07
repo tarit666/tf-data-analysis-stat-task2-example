@@ -1,20 +1,17 @@
 import pandas as pd
 import numpy as np
 
-from scipy.stats import chi2
+from scipy.stats import norm
+from scipy.stats import 
 
 
 chat_id = 681730925 # Ваш chat ID, не меняйте название переменной
 
-def solution(p: float, x: np.array) -> tuple:
+ def solution(p: float, x: np.array) -> tuple:
     alpha = 1 - p
-    loc = np.std(x, ddof=1)
     n = len(x)
-
-    scale = loc / np.sqrt(19*n)
-    q1 = chi2.ppf(alpha / 2, df=n-1)
-    q2 = chi2.ppf(1 - alpha / 2, df=n-1)
-    lower = (n-1)*scale / q2
-    upper = (n-1)*scale / q1
-
-    return lower, upper
+    x = x**2
+    sum = x.sum()
+    left = np.sqrt(sum / (12 * chi2.ppf(1 - alpha / 2, n * 2)))
+    right = np.sqrt(sum / (12 * chi2.ppf(alpha / 2, n * 2)))
+    return left, right
